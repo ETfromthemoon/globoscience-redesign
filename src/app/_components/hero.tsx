@@ -1,71 +1,96 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
-
-const easeOutExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-const stagger = (delay: number) => ({
-  initial: { opacity: 0, y: 48, filter: "blur(8px)" },
-  whileInView: { opacity: 1, y: 0, filter: "blur(0px)" },
-  viewport: { once: true, margin: "-10% 0px" },
-  transition: { duration: 0.8, ease: easeOutExpo, delay },
-});
+import { useRef, useEffect } from "react";
 
 export default function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const sectionRef = useRef<HTMLElement>(null);
+  const line1Ref = useRef<HTMLSpanElement>(null);
+  const line2Ref = useRef<HTMLSpanElement>(null);
+  const subRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const seq = [
+      { el: line1Ref.current, delay: 200 },
+      { el: line2Ref.current, delay: 350 },
+      { el: subRef.current, delay: 550 },
+      { el: ctaRef.current, delay: 750 },
+    ];
+    seq.forEach(({ el, delay }) => {
+      if (el) {
+        setTimeout(() => {
+          el.style.opacity = "1";
+          el.style.transform = "translateY(0)";
+          el.style.filter = "blur(0)";
+        }, delay);
+      }
+    });
+  }, []);
 
   return (
     <section
-      ref={ref}
-      className="relative flex min-h-screen items-center overflow-hidden bg-bg-primary pt-20"
+      ref={sectionRef}
+      className="relative flex min-h-[100dvh] items-center overflow-hidden bg-bg-primary"
     >
-      {/* Subtle radial accent */}
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_30%,rgba(233,31,39,0.03)_0%,transparent_60%)]" />
+      {/* Molecular pattern background */}
+      <div className="pointer-events-none absolute inset-0 z-0 bg-molecular opacity-60" />
+      {/* Radial red accent — top right */}
+      <div className="pointer-events-none absolute -top-[20%] -right-[10%] z-0 h-[80%] w-[60%] rounded-full bg-[radial-gradient(ellipse,rgba(233,31,39,0.05)_0%,transparent_70%)]" />
 
-      {/* Large IDEAS watermark */}
-      <div className="pointer-events-none absolute right-[-5%] top-1/2 z-0 -translate-y-1/2 select-none font-heading text-[clamp(6rem,16vw,14rem)] font-extrabold leading-none tracking-[0.3em] text-brand/5">
-        IDEAS
-      </div>
-
-      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 py-20">
-        <motion.p {...stagger(0)} className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-brand">
-          Insight · Direction · Experience · Advice · Strategies
-        </motion.p>
-
-        <motion.h1
-          {...stagger(0.1)}
-          className="mb-6 max-w-[820px] font-heading text-[clamp(2.5rem,6vw,5.5rem)] font-bold leading-[1.06] tracking-[-0.015em] text-text-primary"
+      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 py-24">
+        {/* Eyebrow */}
+        <p
+          ref={line1Ref as React.RefObject<HTMLParagraphElement>}
+          className="mb-5 text-[0.7rem] font-bold uppercase tracking-[0.2em] text-brand opacity-0 translate-y-6 blur-sm transition-all duration-800"
+          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
-          Architects of <span className="text-brand">innovative</span>{" "}
-          regulatory pathways from molecule to&nbsp;marketplace
-        </motion.h1>
+          Insight · Direction · Experience · Advice · Strategies
+        </p>
 
-        <motion.p
-          {...stagger(0.2)}
-          className="mb-10 max-w-[560px] text-lg leading-relaxed text-text-body"
+        {/* Headline */}
+        <h1
+          ref={line2Ref as React.RefObject<HTMLHeadingElement>}
+          className="mb-8 max-w-[860px] font-heading text-[clamp(2.8rem,6.5vw,6rem)] font-bold leading-[1.04] tracking-[-0.02em] text-text-primary opacity-0 translate-y-8 blur-sm transition-all duration-900"
+          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+        >
+          Architects of{" "}
+          <span className="relative inline-block text-brand">
+            innovative
+            <svg className="absolute -bottom-2 left-0 w-full" height="6" viewBox="0 0 200 6" preserveAspectRatio="none">
+              <path d="M0 3 Q100 0 200 3" stroke="#E91F27" strokeWidth="1.5" fill="none" opacity="0.6" />
+            </svg>
+          </span>{" "}
+          regulatory pathways from molecule to&nbsp;marketplace
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          ref={subRef}
+          className="mb-12 max-w-[560px] text-[1.1rem] leading-relaxed text-text-body opacity-0 translate-y-6 blur-sm transition-all duration-800"
+          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           We transform scientific discoveries into differentiated therapeutics
-          — creating regulatory strategies where no precedent or guidance
-          exists.
-        </motion.p>
+          — creating regulatory strategies where no precedent or guidance exists.
+        </p>
 
-        <motion.div {...stagger(0.3)} className="flex flex-wrap gap-4">
-          <a
-            href="#contact"
-            className="group inline-flex items-center gap-2 rounded-sm bg-brand px-7 py-3.5 text-sm font-bold uppercase tracking-[0.06em] text-white shadow-lg shadow-brand/20 transition-all hover:bg-brand-dark hover:shadow-xl hover:shadow-brand/25 active:scale-[0.98]"
+        {/* CTAs */}
+        <div
+          ref={ctaRef}
+          className="flex flex-wrap gap-4 opacity-0 translate-y-6 blur-sm transition-all duration-800"
+          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+        >
+          <a href="#contact"
+            className="magnetic-btn inline-flex items-center gap-2 rounded-sm bg-brand px-8 py-4 text-sm font-bold uppercase tracking-[0.08em] text-white shadow-lg shadow-brand/15"
           >
             Start Your Approval Journey
-            <span className="transition-transform group-hover:translate-x-0.5">&rarr;</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </a>
-          <a
-            href="#expertise"
-            className="inline-flex items-center gap-2 rounded-sm border border-border-light px-7 py-3.5 text-sm font-medium uppercase tracking-[0.06em] text-text-body transition-all hover:border-brand hover:text-brand"
+          <a href="#expertise"
+            className="magnetic-btn inline-flex items-center gap-2 rounded-sm border border-border-light bg-white/60 px-8 py-4 text-sm font-medium uppercase tracking-[0.08em] text-text-primary backdrop-blur-sm transition-all hover:border-brand hover:text-brand"
           >
             Explore Expertise
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
