@@ -8,6 +8,7 @@ import CTABanner from "./_components/cta-banner";
 import Locations from "./_components/locations";
 import Contact from "./_components/contact";
 import Footer from "./_components/footer";
+import BackToTop from "./_components/back-to-top";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <BackToTop />
     </>
   );
 }
