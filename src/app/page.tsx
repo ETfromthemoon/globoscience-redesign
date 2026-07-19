@@ -9,10 +9,12 @@ import Locations from "./_components/locations";
 import Contact from "./_components/contact";
 import Footer from "./_components/footer";
 import BackToTop from "./_components/back-to-top";
+import ScrollProgress from "./_components/scroll-progress";
 
 export default function Home() {
   return (
     <>
+      <ScrollProgress />
       <Header />
       <main>
         <Hero />

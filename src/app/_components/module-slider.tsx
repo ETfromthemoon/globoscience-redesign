@@ -3,7 +3,10 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect, useCallback, useRef } from "react";
 
-export default function ModuleSlider<T extends Record<string, unknown>>({ items, renderItem }: {
+export default function ModuleSlider<T extends Record<string, unknown>>({
+  items,
+  renderItem,
+}: {
   items: T[];
   renderItem: (item: T, index: number) => React.ReactNode;
 }) {
@@ -12,10 +15,13 @@ export default function ModuleSlider<T extends Record<string, unknown>>({ items,
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pausedRef = useRef(false);
 
-  const goTo = useCallback((idx: number) => {
-    setDirection(idx > active ? 1 : -1);
-    setActive(idx);
-  }, [active]);
+  const goTo = useCallback(
+    (idx: number) => {
+      setDirection(idx > active ? 1 : -1);
+      setActive(idx);
+    },
+    [active],
+  );
 
   const next = useCallback(() => {
     setDirection(1);
@@ -25,37 +31,65 @@ export default function ModuleSlider<T extends Record<string, unknown>>({ items,
   useEffect(() => {
     if (pausedRef.current) return;
     intervalRef.current = setInterval(next, 4000);
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [next]);
+
+  const prevIdx = active === 0 ? items.length - 1 : active - 1;
+  const nextIdx = (active + 1) % items.length;
 
   return (
     <div
-      className="relative"
+      className="relative mx-auto max-w-4xl"
       onMouseEnter={() => { pausedRef.current = true; }}
       onMouseLeave={() => { pausedRef.current = false; }}
     >
-      {/* Slide area */}
-      <div className="relative overflow-hidden rounded-sm">
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
-            key={active}
-            custom={direction}
-            initial={{ opacity: 0, x: direction * 40, scale: 0.96 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -direction * 30, scale: 1.02 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="glass-dark glass-sheen rounded-sm p-8"
+      {/* 4F — Focus + Preview */}
+      <div className="relative flex items-center gap-4">
+        {/* Left preview (30% peek) */}
+        <div className="hidden lg:block w-[22%] -mr-6 z-0">
+          <div
+            className="glass-light cursor-pointer rounded-sm p-5 opacity-40 scale-90 blur-[1px] transition-all duration-500 hover:opacity-60"
+            onClick={() => goTo(prevIdx)}
           >
-            {renderItem(items[active], active)}
-          </motion.div>
-        </AnimatePresence>
+            {renderItem(items[prevIdx], prevIdx)}
+          </div>
+        </div>
+
+        {/* Center — active card */}
+        <div className="relative z-10 flex-1 overflow-hidden rounded-sm">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={active}
+              custom={direction}
+              initial={{ opacity: 0, x: direction * 30, scale: 0.97 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: -direction * 20, scale: 1.01 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              className="glass-light glass-sheen rounded-sm px-8 py-10 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.06)]"
+            >
+              {renderItem(items[active], active)}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Right preview (30% peek) */}
+        <div className="hidden lg:block w-[22%] -ml-6 z-0">
+          <div
+            className="glass-light cursor-pointer rounded-sm p-5 opacity-40 scale-90 blur-[1px] transition-all duration-500 hover:opacity-60"
+            onClick={() => goTo(nextIdx)}
+          >
+            {renderItem(items[nextIdx], nextIdx)}
+          </div>
+        </div>
       </div>
 
       {/* Navigation dots */}
-      <div className="mt-6 flex items-center justify-center gap-3">
+      <div className="mt-8 flex items-center justify-center gap-3">
         <button
-          onClick={() => goTo(active === 0 ? items.length - 1 : active - 1)}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-brand/15 text-brand transition-colors hover:bg-brand/5"
+          onClick={() => goTo(prevIdx)}
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-border-light text-text-body transition-all hover:border-brand hover:text-brand"
           aria-label="Previous"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -67,15 +101,15 @@ export default function ModuleSlider<T extends Record<string, unknown>>({ items,
           <button
             key={i}
             onClick={() => goTo(i)}
-            className={`relative h-2.5 rounded-full transition-all duration-400 ${
-              i === active ? "w-8 bg-brand" : "w-2.5 bg-brand/20 hover:bg-brand/40"
+            className={`relative h-2 rounded-full transition-all duration-400 ${
+              i === active ? "w-7 bg-brand" : "w-2 bg-border-light hover:bg-brand/30"
             }`}
             aria-label={`Go to slide ${i + 1}`}
           >
             {i === active && (
               <motion.div
                 className="absolute inset-0 rounded-full bg-brand"
-                layoutId="slider-dot"
+                layoutId="active-dot"
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
             )}
@@ -83,8 +117,8 @@ export default function ModuleSlider<T extends Record<string, unknown>>({ items,
         ))}
 
         <button
-          onClick={() => goTo((active + 1) % items.length)}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-brand/15 text-brand transition-colors hover:bg-brand/5"
+          onClick={() => goTo(nextIdx)}
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-border-light text-text-body transition-all hover:border-brand hover:text-brand"
           aria-label="Next"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
