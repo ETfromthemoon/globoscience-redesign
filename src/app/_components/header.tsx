@@ -54,10 +54,8 @@ export default function Header() {
                 {label}
               </a>
             ))}
-            <a
-              href="#contact"
-              className="magnetic-btn ml-2 rounded-sm bg-brand px-5 py-2.5 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-white"
-            >
+            <a href="#contact"
+              className="btn-ghost ml-2 rounded-sm px-5 py-2.5 text-[0.72rem]">
               Get In Touch
             </a>
           </nav>

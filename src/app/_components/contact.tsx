@@ -29,7 +29,7 @@ export default function Contact() {
         {/* Info */}
         <div>
           <div className="scroll-reveal mb-14">
-            <span className="mb-4 block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-brand">
+            <span className="mb-4 block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-brand/70">
               Let&apos;s Talk
             </span>
             <h2 className="mb-5 font-heading text-[clamp(2rem,3vw,2.6rem)] font-bold tracking-[-0.015em] text-text-primary">
@@ -56,7 +56,7 @@ export default function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <p className="mb-0.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-brand">{label}</p>
+                  <p className="mb-0.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-brand/60">{label}</p>
                   <p className="text-sm text-text-body">{value}</p>
                 </div>
               </div>
@@ -103,10 +103,8 @@ export default function Contact() {
               className="mb-6 w-full resize-y rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand"
             />
 
-            <button
-              type="submit"
-              className="magnetic-btn w-full rounded-sm bg-brand py-3.5 text-sm font-bold uppercase tracking-[0.08em] text-white shadow-lg shadow-brand/20 sm:w-auto sm:px-10"
-            >
+            <button type="submit"
+              className="btn-ghost rounded-sm px-10 py-3.5 text-sm">
               Send Message
             </button>
           </form>

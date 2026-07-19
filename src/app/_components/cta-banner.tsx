@@ -35,9 +35,8 @@ export default function CTABanner() {
             We believe in regulatory science as a weapon to fight disease and improve health outcomes worldwide.
           </p>
           <Ripple className="inline-block rounded-sm">
-            <a
-              href="#contact"
-              className="magnetic-btn inline-flex items-center gap-2 rounded-sm bg-brand px-9 py-3.5 text-sm font-bold uppercase tracking-[0.08em] text-white shadow-lg shadow-brand/15"
+            <a href="#contact"
+              className="btn-ghost rounded-sm px-9 py-3.5 text-sm"
             >
               Schedule a Consultation
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">

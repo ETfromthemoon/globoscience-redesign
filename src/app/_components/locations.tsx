@@ -31,7 +31,7 @@ export default function Locations() {
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6">
         <div ref={headerRef} className="scroll-reveal mb-20 text-center">
-          <span className="mb-3 block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-brand">
+          <span className="mb-3 block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-brand/70">
             Global Presence
           </span>
           <h2 className="mb-5 font-heading text-[clamp(2rem,3.2vw,2.8rem)] font-bold tracking-[-0.015em] text-text-primary">
@@ -45,7 +45,7 @@ export default function Locations() {
         <div ref={gridRef} className="stagger grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {LOCATIONS.map((loc) => (
             <div key={loc.city} className="glass-light rounded-sm p-5 transition-all duration-400 hover:-translate-y-1.5 hover:border-brand/15 hover:shadow-md">
-              <p className="mb-1 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-brand">
+              <p className="mb-1 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-brand/60">
                 {loc.region}
               </p>
               <h3 className="mb-2 font-heading text-base font-semibold text-text-primary">

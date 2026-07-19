@@ -27,7 +27,7 @@ export default function About() {
 
       <div className="relative z-10 mx-auto grid max-w-[1200px] items-center gap-24 px-6 lg:grid-cols-2">
         <div ref={ref} className="scroll-reveal">
-          <span className="mb-4 block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand">
+          <span className="mb-4 block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand/70">
             Who We Are
           </span>
           <h2 className="mb-8 font-heading text-[clamp(2rem,3.2vw,2.8rem)] font-bold leading-[1.15] tracking-[-0.02em] text-text-primary text-wrap-balance">

@@ -167,13 +167,34 @@ p { text-wrap: pretty; }
 /* =========================================================================
    MAGNETIC HOVER (para CTA buttons)
    ========================================================================= */
+/* Ghost button — default premium style */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(233, 31, 39, 0.35);
+  background: transparent;
+  color: var(--color-brand);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 2px;
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-ghost:hover {
+  background: var(--color-brand);
+  color: #fff;
+  box-shadow: 0 8px 28px -6px rgba(233, 31, 39, 0.3);
+  transform: translateY(-1px);
+}
+.btn-ghost:active { transform: translateY(0); }
 .magnetic-btn {
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .magnetic-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 32px -8px rgba(233, 31, 39, 0.3);
+  box-shadow: 0 12px 32px -8px rgba(233, 31, 39, 0.2);
 }
 .magnetic-btn:active {
   transform: translateY(0) scale(0.98);

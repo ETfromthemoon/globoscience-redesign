@@ -80,13 +80,13 @@ export default function Hero() {
           style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           <a href="#contact"
-            className="magnetic-btn inline-flex items-center gap-2 rounded-sm bg-brand px-8 py-4 text-sm font-bold uppercase tracking-[0.08em] text-white shadow-lg shadow-brand/15"
+            className="btn-ghost magnetic-btn rounded-sm px-8 py-4 text-sm"
           >
             Start Your Approval Journey
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </a>
           <a href="#expertise"
-            className="magnetic-btn inline-flex items-center gap-2 rounded-sm border border-border-light bg-white/60 px-8 py-4 text-sm font-medium uppercase tracking-[0.08em] text-text-primary backdrop-blur-sm transition-all hover:border-brand hover:text-brand"
+            className="magnetic-btn inline-flex items-center gap-2 rounded-sm border border-border-light bg-white/60 px-8 py-4 text-sm font-medium uppercase tracking-[0.08em] text-text-primary backdrop-blur-sm transition-all hover:border-brand/40 hover:text-brand/80"
           >
             Explore Expertise
           </a>

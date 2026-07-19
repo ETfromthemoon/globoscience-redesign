@@ -39,7 +39,7 @@ export default function Expertise() {
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6">
         <div ref={headerRef} className="scroll-reveal mb-20 text-center">
-          <span className="mb-3 block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand">
+          <span className="mb-3 block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand/70">
             Our Expertise
           </span>
           <h2 className="mb-5 font-heading text-[clamp(2rem,3.2vw,2.8rem)] font-bold tracking-[-0.02em] text-text-primary text-wrap-balance">
