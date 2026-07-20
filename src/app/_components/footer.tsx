@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="glass-dark relative overflow-hidden py-16">
-      <div className="pointer-events-none absolute inset-0 bg-hexgrid opacity-20" />
+    <footer className="relative overflow-hidden border-t border-black/[0.06] bg-white py-16">
+      <div className="pointer-events-none absolute inset-0 bg-dots opacity-30" />
       <div className="relative z-10 mx-auto max-w-[1200px] px-6">
         <div className="mb-12 grid gap-10 sm:grid-cols-3">
           <div>
@@ -14,11 +14,11 @@ export default function Footer() {
                 <line x1="2" y1="14" x2="10.5" y2="14" stroke="#E91F27" strokeWidth="1.2" />
                 <line x1="17.5" y1="14" x2="26" y2="14" stroke="#E91F27" strokeWidth="1.2" />
               </svg>
-              <h3 className="font-heading text-lg font-bold text-white">
+              <h3 className="font-heading text-lg font-bold text-text-primary">
                 GloboScience
               </h3>
             </div>
-            <p className="max-w-[300px] text-sm leading-relaxed text-white/40">
+            <p className="max-w-[300px] text-sm leading-relaxed text-text-body">
               Win your therapeutic area with GloboScience. Architects of
               innovative regulatory pathways from molecule to marketplace.
             </p>
@@ -33,7 +33,7 @@ export default function Footer() {
                 <a
                   key={label}
                   href={`#${label.toLowerCase().replace(/\s/g, "-")}`}
-                  className="text-sm text-white/45 transition-colors hover:text-brand"
+                  className="text-sm text-text-body transition-colors hover:text-brand"
                 >
                   {label}
                 </a>
@@ -50,14 +50,14 @@ export default function Footer() {
                 href="https://www.linkedin.com/company/40735184/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-sm text-white/45 transition-all hover:border-brand hover:text-brand"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] text-sm text-text-body transition-all hover:border-brand hover:text-brand"
                 aria-label="LinkedIn"
               >
                 in
               </a>
               <a
                 href="mailto:innovate@globoscience.com"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-sm text-white/45 transition-all hover:border-brand hover:text-brand"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] text-sm text-text-body transition-all hover:border-brand hover:text-brand"
                 aria-label="Email"
               >
                 @
@@ -66,8 +66,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/5 pt-6">
-          <p className="text-xs text-white/25">
+        <div className="border-t border-black/[0.06] pt-6">
+          <p className="text-xs text-text-muted">
             &copy; 2026 GloboScience Inc. All rights reserved.
           </p>
         </div>
