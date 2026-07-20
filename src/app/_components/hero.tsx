@@ -32,7 +32,7 @@ export default function Hero() {
       {/* Radial red accent */}
       <div className="pointer-events-none absolute -top-[20%] -right-[10%] z-[1] h-[80%] w-[60%] rounded-full bg-[radial-gradient(ellipse,rgba(233,31,39,0.03)_0%,transparent_70%)]" />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-[1200px] items-center gap-8 px-6 py-24 lg:grid-cols-[1fr_440px]">
+      <div className="relative z-10 mx-auto grid w-full max-w-[1280px] items-center gap-8 px-6 py-24 lg:grid-cols-[1fr_560px]">
         {/* Left: Text content */}
         <div>
           <p
