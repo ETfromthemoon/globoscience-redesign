@@ -5,9 +5,9 @@
   --color-brand-dark:    #D90700;
   --color-brand-hover:   #c7000a;
   --color-text-primary:  #2B161B;
-  --color-text-body:     #808285;
-  --color-text-footer:   #787878;
-  --color-text-muted:    #9CA3AF;
+  --color-text-body:     rgba(43, 22, 27, 0.6);
+  --color-text-footer:   rgba(43, 22, 27, 0.45);
+  --color-text-muted:    rgba(43, 22, 27, 0.35);
   --color-bg-primary:    #FFFFFF;
   --color-bg-alt:        #F7F3F5;
   --color-bg-light:      #F6F7F8;

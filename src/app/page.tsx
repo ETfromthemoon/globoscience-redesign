@@ -1,6 +1,5 @@
 import Header from "./_components/header";
 import Hero from "./_components/hero";
-import StatsStrip from "./_components/stats";
 import About from "./_components/about";
 import Expertise from "./_components/expertise";
 import WhyUs from "./_components/why-us";
@@ -18,7 +17,6 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <StatsStrip />
         <About />
         <Expertise />
         <WhyUs />

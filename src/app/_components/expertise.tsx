@@ -2,7 +2,6 @@
 
 import { useRef, useEffect } from "react";
 import ModuleSlider from "./module-slider";
-import AnimatedIcon from "./animated-icon";
 import {
   CellIcon, GeneIcon, RareIcon, ImmunoIcon, TissueIcon,
   DrugIcon, BiologicsIcon, DeviceIcon, ComboIcon,
@@ -56,9 +55,7 @@ export default function Expertise() {
             items={EXPERTISE}
             renderItem={(item, index) => (
               <div className="flex flex-col items-center text-center gap-4">
-                <AnimatedIcon delay={index * 0.02}>
-                  <item.icon />
-                </AnimatedIcon>
+                <item.icon delay={index * 0.02} />
                 <h3 className="font-heading text-xl font-semibold text-text-primary">
                   {item.title}
                 </h3>
