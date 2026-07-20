@@ -21,12 +21,25 @@ const REASONS = [
 ];
 
 const TOTAL = REASONS.length;
+const VISIBLE_BEHIND = 3;
+
+function getDepthStyle(distanceFromActive: number): {
+  scale: number;
+  opacity: number;
+  blur: string;
+  y: number;
+  z: number;
+} {
+  const abs = Math.abs(distanceFromActive);
+  if (abs === 0) return { scale: 1, opacity: 1, blur: "blur(0px)", y: 0, z: 30 };
+  if (abs === 1) return { scale: 0.9, opacity: 0.5, blur: "blur(4px)", y: 20, z: 20 };
+  if (abs === 2) return { scale: 0.82, opacity: 0.28, blur: "blur(8px)", y: 34, z: 10 };
+  return { scale: 0.76, opacity: 0.14, blur: "blur(14px)", y: 44, z: 5 };
+}
 
 export default function WhyUs() {
   const triggerRef = useRef<HTMLDivElement>(null);
-  const cardContainerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
   const prevIndex = useRef(0);
 
   useEffect(() => {
@@ -36,14 +49,12 @@ export default function WhyUs() {
     const st = ScrollTrigger.create({
       trigger,
       start: "top top",
-      end: `+=${TOTAL * 100}%`, // virtual scroll: 10 cards × 100% of viewport
+      end: `+=300%`, // faster — less scroll distance
       pin: true,
-      scrub: 0.5,
+      scrub: 0.3,
       onUpdate: (self) => {
-        const progress = self.progress;
-        const newIndex = Math.min(TOTAL - 1, Math.floor(progress * TOTAL));
+        const newIndex = Math.min(TOTAL - 1, Math.floor(self.progress * TOTAL));
         if (newIndex !== prevIndex.current) {
-          setDirection(newIndex > prevIndex.current ? 1 : -1);
           prevIndex.current = newIndex;
           setActiveIndex(newIndex);
         }
@@ -53,86 +64,119 @@ export default function WhyUs() {
     return () => st.kill();
   }, []);
 
-  const cardVariants = {
-    enter: (dir: number) => ({
-      opacity: 0,
-      y: dir > 0 ? 80 : -80,
-      scale: 0.94,
-      filter: "blur(6px)",
-    }),
-    center: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      filter: "blur(0px)",
-    },
-    exit: (dir: number) => ({
-      opacity: 0,
-      y: dir > 0 ? -50 : 50,
-      scale: 1.02,
-      filter: "blur(3px)",
-    }),
-  };
+  const behindCards = [];
+  for (let i = 1; i <= VISIBLE_BEHIND; i++) {
+    const idx = activeIndex - i;
+    if (idx >= 0) behindCards.push({ idx, distance: i });
+  }
 
   return (
-    <>
-      {/* Spacer to create scroll room for GSAP pin */}
-      <div ref={triggerRef} className="relative bg-bg-alt">
-        <section className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
-          <div className="pointer-events-none absolute inset-0 bg-dots opacity-20" />
+    <div ref={triggerRef} className="relative bg-bg-alt">
+      <section className="sticky top-0 flex h-screen items-center overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 bg-dots opacity-20" />
 
-          <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col items-center gap-10 px-6 lg:flex-row lg:gap-20">
-            {/* Left: header + dots */}
-            <div className="flex-shrink-0 text-center lg:w-[340px] lg:text-left">
-              <span className="mb-3 block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand/70">
-                Why Choose Us
-              </span>
-              <h2 className="mb-4 font-heading text-[clamp(1.6rem,2.5vw,2.2rem)] font-bold leading-[1.15] tracking-[-0.02em] text-text-primary text-wrap-balance">
-                The <span className="text-brand">10 fastest</span> FDA approvals
-              </h2>
-              <p className="text-[0.9375rem] leading-relaxed text-text-body">
-                Scroll to reveal each reason.
-              </p>
+        <div className="relative z-10 mx-auto flex w-full max-w-[1200px] items-center gap-16 px-6 lg:gap-24">
+          {/* Left: header + timeline indicator */}
+          <div className="flex-shrink-0 text-center lg:w-[300px] lg:text-left">
+            <span className="mb-3 block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand/70">
+              Why Choose Us
+            </span>
+            <h2 className="mb-3 font-heading text-[clamp(1.6rem,2.5vw,2.2rem)] font-bold leading-[1.15] tracking-[-0.02em] text-text-primary text-wrap-balance">
+              The <span className="text-brand">10 fastest</span> FDA&nbsp;approvals
+            </h2>
+            <p className="text-[0.875rem] leading-relaxed text-text-body">
+              Scroll to discover each reason.
+            </p>
 
-              {/* Clickable dots */}
-              <div className="mt-8 flex flex-wrap gap-2 lg:gap-2.5">
-                {REASONS.map((r, i) => (
-                  <button
-                    key={r.num}
-                    onClick={() => {
-                      const trigger = triggerRef.current;
-                      if (trigger) {
-                        const target = trigger.offsetTop + (window.innerHeight * i);
-                        window.scrollTo({ top: target, behavior: "smooth" });
-                      }
-                    }}
-                    className={`flex h-8 w-8 items-center justify-center rounded-full text-[0.6rem] font-bold transition-all duration-300 ${
-                      i === activeIndex
-                        ? "bg-brand text-white shadow-md shadow-brand/20 scale-110"
-                        : i < activeIndex
-                          ? "bg-brand/10 text-brand/40"
-                          : "bg-border-light text-text-muted hover:bg-brand/8"
-                    }`}
-                    aria-label={`Reason ${r.num}`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
+            {/* Timeline indicator — vertical line + dots */}
+            <div className="mt-10 hidden lg:block">
+              <div className="relative ml-1 flex flex-col items-start gap-[18px]">
+                {/* Vertical line */}
+                <div className="absolute top-0 bottom-0 left-[3px] w-[1px] bg-brand/15" />
+
+                {REASONS.map((_, i) => {
+                  const isActive = i === activeIndex;
+                  const isPast = i < activeIndex;
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        const trigger = triggerRef.current;
+                        if (trigger) {
+                          const targetY = trigger.offsetTop + (window.innerHeight * (i / TOTAL) * 3);
+                          window.scrollTo({ top: targetY, behavior: "smooth" });
+                        }
+                      }}
+                      className="relative z-10 flex items-center gap-3 group"
+                      aria-label={`Reason ${i + 1}`}
+                    >
+                      {/* Dot */}
+                      <span
+                        className={`block h-[7px] w-[7px] rounded-full transition-all duration-400 ${
+                          isActive
+                            ? "bg-brand shadow-[0_0_10px_rgba(233,31,39,0.5)] scale-125"
+                            : isPast
+                              ? "bg-brand/40"
+                              : "bg-brand/12 group-hover:bg-brand/30"
+                        }`}
+                      />
+                      {/* Label — only visible on active */}
+                      <span
+                        className={`text-[0.65rem] font-semibold uppercase tracking-[0.1em] transition-all duration-300 ${
+                          isActive ? "text-brand opacity-100" : "opacity-0 w-0 overflow-hidden"
+                        }`}
+                      >
+                        {REASONS[i].title.length > 25
+                          ? REASONS[i].title.slice(0, 25) + "..."
+                          : REASONS[i].title}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
+          </div>
 
-            {/* Right: card */}
-            <div ref={cardContainerRef} className="relative flex min-h-[260px] flex-1 items-center justify-center sm:min-h-[300px]">
-              <AnimatePresence mode="wait" custom={direction}>
+          {/* Right: stacked cards */}
+          <div className="relative flex flex-1 items-center justify-center" style={{ minHeight: 320 }}>
+            <div className="relative w-full max-w-[540px]" style={{ height: 340 }}>
+              {/* Behind cards (depth effect) */}
+              {behindCards.map(({ idx, distance }) => {
+                const style = getDepthStyle(distance);
+                return (
+                  <motion.div
+                    key={`behind-${idx}`}
+                    initial={false}
+                    animate={{
+                      scale: style.scale,
+                      y: style.y,
+                      filter: style.blur,
+                      opacity: style.opacity,
+                      zIndex: style.z,
+                    }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="glass-light absolute inset-x-0 top-0 rounded-sm p-8 text-center"
+                    style={{ transformOrigin: "center top" }}
+                  >
+                    <div className="font-heading text-4xl font-bold text-brand/15 mb-2">
+                      {REASONS[idx].num}
+                    </div>
+                    <h3 className="font-heading text-base font-semibold text-text-primary/60 mb-1">
+                      {REASONS[idx].title}
+                    </h3>
+                  </motion.div>
+                );
+              })}
+
+              {/* Active card */}
+              <AnimatePresence mode="wait">
                 <motion.div
                   key={activeIndex}
-                  custom={direction}
-                  variants={cardVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="glass-light glass-sheen w-full max-w-[540px] rounded-sm p-10 shadow-[0_4px_24px_rgba(0,0,0,0.04)]"
+                  initial={{ opacity: 0, y: 60, scale: 0.92, filter: "blur(6px)" }}
+                  animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)", zIndex: 30 }}
+                  exit={{ opacity: 0, y: -30, scale: 0.98, filter: "blur(2px)" }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="glass-light glass-sheen absolute inset-x-0 top-0 rounded-sm p-10 shadow-[0_4px_28px_rgba(0,0,0,0.05)]"
                 >
                   <div className="mb-5 font-heading text-7xl font-bold leading-none text-brand/12">
                     {REASONS[activeIndex].num}
@@ -152,15 +196,32 @@ export default function WhyUs() {
               </AnimatePresence>
             </div>
           </div>
+        </div>
 
-          {/* Bottom scroll indicator */}
-          <div className="absolute bottom-5 left-1/2 -translate-x-1/2">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="animate-bounce text-brand/25">
-              <path d="M4.5 7L9 11.5 13.5 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-        </section>
-      </div>
-    </>
+        {/* Mobile timeline dots */}
+        <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 lg:hidden">
+          {REASONS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                const trigger = triggerRef.current;
+                if (trigger) {
+                  const targetY = trigger.offsetTop + (window.innerHeight * (i / TOTAL) * 3);
+                  window.scrollTo({ top: targetY, behavior: "smooth" });
+                }
+              }}
+              className={`h-[5px] rounded-full transition-all duration-400 ${
+                i === activeIndex
+                  ? "w-6 bg-brand shadow-[0_0_6px_rgba(233,31,39,0.4)]"
+                  : i < activeIndex
+                    ? "w-[5px] bg-brand/30"
+                    : "w-[5px] bg-border-light"
+              }`}
+              aria-label={`Reason ${i + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }
