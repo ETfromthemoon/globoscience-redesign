@@ -76,14 +76,14 @@ export default function Contact() {
                 required
                 defaultValue=""
               >
-                <option value="" disabled className="text-gray-500">
+                <option value="" disabled className="text-[#9b8a8d]">
                   I&apos;m interested in...
                 </option>
-                <option className="text-gray-800">Regulatory Strategy</option>
-                <option className="text-gray-800">Product Development Consulting</option>
-                <option className="text-gray-800">Clinical Development Optimization</option>
-                <option className="text-gray-800">FDA / EMA Meeting Preparation</option>
-                <option className="text-gray-800">General Inquiry</option>
+                <option className="text-[#2B161B]">Regulatory Strategy</option>
+                <option className="text-[#2B161B]">Product Development Consulting</option>
+                <option className="text-[#2B161B]">Clinical Development Optimization</option>
+                <option className="text-[#2B161B]">FDA / EMA Meeting Preparation</option>
+                <option className="text-[#2B161B]">General Inquiry</option>
               </select>
             </div>
 

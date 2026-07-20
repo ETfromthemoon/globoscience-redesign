@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-black/[0.06] bg-white py-16">
+    <footer className="relative overflow-hidden border-t border-border-light bg-white py-16">
       <div className="pointer-events-none absolute inset-0 bg-dots opacity-30" />
       <div className="relative z-10 mx-auto max-w-[1200px] px-6">
         <div className="mb-12 grid gap-10 sm:grid-cols-3">
@@ -56,7 +56,7 @@ export default function Footer() {
                 href="https://www.linkedin.com/company/40735184/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] text-text-body transition-all hover:-translate-y-0.5 hover:border-brand hover:text-brand"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-border-light text-text-body transition-all hover:-translate-y-0.5 hover:border-brand hover:text-brand"
                 aria-label="LinkedIn"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -65,7 +65,7 @@ export default function Footer() {
               </a>
               <a
                 href="mailto:innovate@globoscience.com"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] text-text-body transition-all hover:-translate-y-0.5 hover:border-brand hover:text-brand"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-border-light text-text-body transition-all hover:-translate-y-0.5 hover:border-brand hover:text-brand"
                 aria-label="Email"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -77,7 +77,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-black/[0.06] pt-6">
+        <div className="border-t border-border-light pt-6">
           <p className="text-xs text-text-muted">
             &copy; 2026 GloboScience Inc. All rights reserved.
           </p>

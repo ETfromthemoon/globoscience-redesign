@@ -10,10 +10,10 @@
   --color-text-muted:    rgba(43, 22, 27, 0.35);
   --color-bg-primary:    #FFFFFF;
   --color-bg-alt:        #FFFFFF;
-  --color-bg-light:      #F6F7F8;
   --color-bg-dark:       #0f0b0c;
-  --color-border-light:  #e7e7e7;
-  --color-border-strong: rgba(0, 0, 0, 0.08);
+  /* Neutros cálidos — derivados del vino de marca, cero gris frío */
+  --color-border-light:  rgba(43, 22, 27, 0.1);
+  --color-border-strong: rgba(43, 22, 27, 0.16);
   --font-display: var(--font-lato);
   --font-body:    var(--font-lato);
   --font-heading: var(--font-poppins);
@@ -102,13 +102,15 @@ select:focus-visible {
    GLASS SYSTEM — 3 niveles
    ========================================================================= */
 
-/* Level 1: Crystal clear glass — ultra-transparent, lets bg shine */
+/* Level 1: Crystal clear glass — blush cálido casi imperceptible, cero gris */
 .glass-light {
-  background: rgba(255, 255, 255, 0.38);
+  background:
+    linear-gradient(rgba(233, 31, 39, 0.022), rgba(233, 31, 39, 0.022)),
+    rgba(255, 255, 255, 0.42);
   backdrop-filter: blur(10px) saturate(1.1);
   -webkit-backdrop-filter: blur(10px) saturate(1.1);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(43, 22, 27, 0.07);
+  box-shadow: 0 1px 6px rgba(43, 22, 27, 0.03);
 }
 
 /* Level 2: Dark glass — paneles de contraste, quotes, overlays */
@@ -127,11 +129,11 @@ select:focus-visible {
 
 /* Level 3: Nav glass — sticky header */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.86);
+  background: rgba(255, 253, 253, 0.86);
   backdrop-filter: blur(20px) saturate(1.15);
   -webkit-backdrop-filter: blur(20px) saturate(1.15);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(43, 22, 27, 0.07);
+  box-shadow: 0 1px 8px rgba(43, 22, 27, 0.04);
 }
 
 /* Diagonal specular sheen — aplicar a contenedores con position:relative */

@@ -182,7 +182,7 @@ export default function WhyUs() {
                     }}
                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     className={`glass-light absolute inset-x-0 top-0 rounded-sm p-8 ${
-                      dist === 0 ? "glass-sheen shadow-[0_4px_28px_rgba(0,0,0,0.06)]" : ""
+                      dist === 0 ? "glass-sheen shadow-[0_4px_28px_rgba(43,22,27,0.07)]" : ""
                     }`}
                     style={{ transformOrigin: "center top" }}
                   >
