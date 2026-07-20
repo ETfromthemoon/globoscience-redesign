@@ -79,11 +79,11 @@ function MorphNumber({ text, suffix, slow }: { text: string; suffix: string; slo
 /** Label que muta palabra a palabra en cascada */
 function MorphLabel({ label, slow }: { label: string; slow: boolean }) {
   return (
-    <span className="relative block h-[2.6em] overflow-hidden sm:h-[1.4em]">
+    <span className="relative block h-[2.7em] w-full overflow-hidden text-[0.74rem] font-semibold uppercase leading-[1.35] tracking-[0.15em] text-text-primary/70">
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={label}
-          className="absolute inset-0 flex flex-wrap content-center items-center justify-center gap-x-[0.35em]"
+          className="absolute inset-0 flex flex-wrap content-center items-center justify-center gap-x-[0.4em]"
           initial="hidden"
           animate="show"
           exit="exit"
@@ -148,11 +148,9 @@ export default function MetricMorph() {
       onMouseLeave={() => { pausedRef.current = false; }}
     >
       {/* Métrica centrada: número + label */}
-      <div className="flex flex-col items-center gap-1.5 text-center">
+      <div className="flex w-full flex-col items-center gap-2 text-center">
         <MorphNumber text={m.display} suffix={m.suffix} slow={slow} />
-        <span className="text-[0.8rem] font-medium text-text-body sm:text-sm">
-          <MorphLabel label={m.label} slow={slow} />
-        </span>
+        <MorphLabel label={m.label} slow={slow} />
       </div>
 
       {/* Indicador de progreso — centrado abajo */}
