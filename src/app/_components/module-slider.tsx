@@ -29,8 +29,9 @@ export default function ModuleSlider<T extends Record<string, unknown>>({
   }, [items.length]);
 
   useEffect(() => {
-    if (pausedRef.current) return;
-    intervalRef.current = setInterval(next, 4000);
+    intervalRef.current = setInterval(() => {
+      if (!pausedRef.current) next();
+    }, 4000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
@@ -67,7 +68,7 @@ export default function ModuleSlider<T extends Record<string, unknown>>({
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: -direction * 20, scale: 1.01 }}
               transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              className="glass-light glass-sheen rounded-sm px-8 py-10 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.06)]"
+              className="glass-light glass-sheen flex min-h-[280px] items-center justify-center rounded-sm px-8 py-10 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.06)]"
             >
               {renderItem(items[active], active)}
             </motion.div>

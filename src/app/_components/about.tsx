@@ -4,10 +4,10 @@ import { useRef, useEffect, useState } from "react";
 import ImageTilt from "./image-tilt";
 
 const METRICS = [
-  { value: 4000, label: "Health Authority Meetings" },
-  { value: 2000, label: "Therapeutic Programs" },
-  { value: 100, label: "Countries Reached" },
-  { value: 10, label: "Fastest FDA Approvals" },
+  { value: 4000, suffix: "+", label: "Health Authority Meetings" },
+  { value: 2000, suffix: "+", label: "Therapeutic Programs" },
+  { value: 100, suffix: "+", label: "Countries Reached" },
+  { value: 10, suffix: "×", label: "Fastest FDA Approvals" },
 ];
 
 function Counter({ target, inView }: { target: number; inView: boolean }) {
@@ -53,16 +53,16 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" className="relative overflow-hidden py-32">
+    <section id="about" className="section-pad relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-molecular opacity-30" />
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6">
         <div className="grid items-center gap-24 lg:grid-cols-2">
           <div ref={ref} className="scroll-reveal">
-            <span className="mb-4 block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand/70">
+            <span className="eyebrow mb-4">
               Who We Are
             </span>
-            <h2 className="mb-8 font-heading text-[clamp(2rem,3.2vw,2.8rem)] font-bold leading-[1.15] tracking-[-0.02em] text-text-primary text-wrap-balance">
+            <h2 className="heading-2 mb-8">
               The strategic regulatory{" "}
               <span className="whitespace-nowrap text-brand">problem solver</span>{" "}
               and product development partner of&nbsp;choice
@@ -110,11 +110,8 @@ export default function About() {
             {METRICS.map((m) => (
               <div key={m.label} className="glass-light rounded-sm px-5 py-6 text-center transition-all duration-400 hover:-translate-y-1 hover:border-brand/10">
                 <div className="font-heading text-[clamp(2rem,3vw,3rem)] font-bold leading-none text-brand">
-                  {m.value === 10 ? (
-                    <>10<span className="ml-1 text-[0.3em] font-medium">Fastest</span></>
-                  ) : (
-                    <><Counter target={m.value} inView={metricsInView} /><span className="text-[0.45em] align-super font-bold">+</span></>
-                  )}
+                  <Counter target={m.value} inView={metricsInView} />
+                  <span className="text-[0.45em] align-super font-bold">{m.suffix}</span>
                 </div>
                 <p className="mt-2 text-[0.75rem] font-medium leading-tight text-text-body">{m.label}</p>
               </div>

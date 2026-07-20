@@ -82,15 +82,24 @@ export default function WhyUs() {
   }, []);
 
   return (
-    <div ref={triggerRef} className="relative bg-bg-alt">
+    <div id="why" ref={triggerRef} className="relative bg-bg-alt">
       <section className="sticky top-0 flex h-screen items-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-dots opacity-20" />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[1200px] items-stretch gap-12 px-6 lg:gap-20">
+        <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6">
+          {/* Mobile header — visible solo bajo lg */}
+          <div className="pt-14 pb-2 text-center lg:hidden">
+            <span className="eyebrow mb-2">Why Choose Us</span>
+            <h2 className="font-heading text-[clamp(1.4rem,5.5vw,1.8rem)] font-bold leading-[1.15] tracking-[-0.02em] text-text-primary">
+              The <span className="text-brand">10 fastest</span> FDA&nbsp;approvals
+            </h2>
+          </div>
+
+          <div className="flex w-full items-stretch gap-12 lg:gap-20">
           {/* Left sidebar: header + compact timeline — stays within viewport */}
-          <div className="flex w-[280px] flex-shrink-0 flex-col justify-between py-12">
+          <div className="hidden w-[280px] flex-shrink-0 flex-col justify-between py-12 lg:flex">
             <div>
-              <span className="mb-2 block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand/70">
+              <span className="eyebrow mb-2">
                 Why Choose Us
               </span>
               <h2 className="mb-2 font-heading text-[clamp(1.5rem,2.2vw,2rem)] font-bold leading-[1.15] tracking-[-0.02em] text-text-primary text-wrap-balance">
@@ -198,6 +207,7 @@ export default function WhyUs() {
                 );
               })}
             </div>
+          </div>
           </div>
         </div>
 

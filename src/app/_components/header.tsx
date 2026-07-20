@@ -13,11 +13,29 @@ const NAV_ITEMS = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* Scrollspy — resalta la sección visible en el nav */
+  useEffect(() => {
+    const sections = NAV_ITEMS
+      .map(({ href }) => document.getElementById(href.slice(1)))
+      .filter((el): el is HTMLElement => el !== null);
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActiveSection(`#${e.target.id}`);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    sections.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
   }, []);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
@@ -29,7 +47,7 @@ export default function Header() {
           scrolled ? "glass-nav py-3" : "bg-transparent py-5"
         }`}
       >
-        <div className="mx-auto flex max-w-[1280px] items-center justify-between px-6">
+        <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6">
           <a href="#" className="group flex items-center gap-1.5">
             <svg width="28" height="28" viewBox="0 0 28 28" className="transition-transform duration-500 group-hover:rotate-90">
               <circle cx="14" cy="14" r="12" stroke="#E91F27" strokeWidth="1.5" fill="none" />
@@ -45,15 +63,21 @@ export default function Header() {
           </a>
 
           <nav className="hidden items-center gap-8 md:flex">
-            {NAV_ITEMS.map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                className="relative text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-text-body transition-colors hover:text-brand after:absolute after:-bottom-1 after:left-0 after:h-[1.5px] after:w-0 after:bg-brand after:transition-all after:duration-400 hover:after:w-full"
-              >
-                {label}
-              </a>
-            ))}
+            {NAV_ITEMS.map(({ label, href }) => {
+              const isActive = activeSection === href;
+              return (
+                <a
+                  key={label}
+                  href={href}
+                  aria-current={isActive ? "true" : undefined}
+                  className={`relative text-[0.72rem] font-semibold uppercase tracking-[0.12em] transition-colors hover:text-brand after:absolute after:-bottom-1 after:left-0 after:h-[1.5px] after:bg-brand after:transition-all after:duration-400 hover:after:w-full ${
+                    isActive ? "text-brand after:w-full" : "text-text-body after:w-0"
+                  }`}
+                >
+                  {label}
+                </a>
+              );
+            })}
             <a href="#contact"
               className="btn-ghost ml-2 rounded-sm px-5 py-2.5 text-[0.72rem]">
               Get In Touch

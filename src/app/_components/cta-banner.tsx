@@ -22,7 +22,7 @@ export default function CTABanner() {
   }, []);
 
   return (
-    <section ref={ref} className="relative overflow-hidden border-t border-border-light bg-bg-alt py-32">
+    <section ref={ref} className="section-pad relative overflow-hidden border-t border-border-light bg-bg-alt">
       <div className="pointer-events-none absolute inset-0 bg-molecular opacity-20" />
       <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[400px] rounded-full bg-[radial-gradient(circle,rgba(233,31,39,0.04)_0%,transparent_70%)]" />
 

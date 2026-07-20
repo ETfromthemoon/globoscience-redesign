@@ -22,17 +22,17 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" ref={ref} className="relative overflow-hidden bg-bg-primary py-28">
+    <section id="contact" ref={ref} className="section-pad relative overflow-hidden bg-bg-primary">
       <div className="pointer-events-none absolute inset-0 bg-molecular opacity-20" />
 
       <div className="relative z-10 mx-auto grid max-w-[1200px] gap-16 px-6 lg:grid-cols-2">
         {/* Info */}
         <div>
           <div className="scroll-reveal mb-14">
-            <span className="mb-4 block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-brand/70">
+            <span className="eyebrow mb-4">
               Let&apos;s Talk
             </span>
-            <h2 className="mb-5 font-heading text-[clamp(2rem,3vw,2.6rem)] font-bold tracking-[-0.015em] text-text-primary">
+            <h2 className="heading-2 mb-5">
               Start the <span className="text-brand">conversation</span>
             </h2>
             <p className="max-w-[440px] leading-relaxed text-text-body">
