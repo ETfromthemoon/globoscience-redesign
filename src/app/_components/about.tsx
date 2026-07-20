@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import ImageTilt from "./image-tilt";
-import MetricStrip from "./metric-strip";
+import ParallaxPhoto from "./parallax-photo";
+import MetricMorph from "./metric-morph";
 
 export default function About() {
   const ref = useRef<HTMLDivElement>(null);
@@ -43,35 +43,37 @@ export default function About() {
               influence extends globally.
             </p>
 
-            <blockquote className="glass-dark glass-sheen relative rounded-sm p-8 shadow-[0_8px_30px_-4px_rgba(43,22,27,0.16)]">
-              <svg className="mb-4 opacity-30" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <blockquote className="relative rounded-sm border border-[#2B161B]/10 border-l-[3px] border-l-brand bg-white/75 p-8 shadow-[0_10px_34px_-10px_rgba(43,22,27,0.14)] backdrop-blur-sm">
+              <svg className="mb-4 text-brand/30" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M10 11H6V7h4V3H3v12h7v-4zm8 0h-4V7h4V3h-7v12h7v-4z" />
               </svg>
-              <p className="text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-text-primary/75">
                 &ldquo;GloboScience is the regulatory problem solver and product
                 development consulting partner of choice.&rdquo;
               </p>
-              <footer className="mt-4 text-sm font-semibold text-white">
+              <footer className="mt-4 text-sm font-semibold text-text-primary">
                 Lorna L. Langdon{" "}
-                <span className="font-normal text-white/40">— Chairwoman</span>
+                <span className="font-normal text-text-muted">— Chairwoman</span>
               </footer>
             </blockquote>
           </div>
 
           <div ref={imgRef} className="scroll-reveal relative">
-            <ImageTilt>
-              <div className="glass-dark glass-sheen relative overflow-hidden rounded-sm p-3 shadow-[0_8px_30px_-4px_rgba(43,22,27,0.16)]">
-                <img src="/assets/Scientist-PNG.png" alt="Scientific visualization" className="relative z-10 w-full rounded-[2px]" loading="lazy" />
-              </div>
-            </ImageTilt>
+            <div className="relative overflow-hidden rounded-sm border border-[#2B161B]/10 bg-white/80 p-3 shadow-[0_10px_34px_-10px_rgba(43,22,27,0.14)] backdrop-blur-sm">
+              <ParallaxPhoto
+                src="/assets/Scientist-PNG.png"
+                alt="Scientific visualization"
+                className="rounded-[2px]"
+              />
+            </div>
             <div className="pointer-events-none absolute -top-4 -right-4 -bottom-4 -left-4 rounded-md border-2 border-brand/8" />
             <div className="pointer-events-none absolute -top-6 -right-6 -bottom-6 -left-6 rounded-lg border border-brand/5" />
           </div>
         </div>
 
-        {/* Metrics — mini franja con derretido líquido */}
+        {/* Metrics — franja con morph de dígitos */}
         <div className="mx-auto mt-20 max-w-[680px]">
-          <MetricStrip />
+          <MetricMorph />
         </div>
       </div>
     </section>

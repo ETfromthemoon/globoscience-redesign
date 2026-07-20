@@ -67,12 +67,12 @@ export default function Contact() {
         {/* Form */}
         <div className="scroll-reveal">
           <form
-            className="glass-dark glass-sheen rounded-sm p-8"
+            className="relative rounded-sm border border-[#2B161B]/10 border-t-[3px] border-t-brand bg-white/80 p-8 shadow-[0_14px_44px_-14px_rgba(43,22,27,0.16)] backdrop-blur-sm"
             onSubmit={(e) => e.preventDefault()}
           >
             <div className="mb-4">
               <select
-                className="w-full cursor-pointer rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand"
+                className="w-full cursor-pointer rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none transition-colors focus:border-brand"
                 required
                 defaultValue=""
               >
@@ -88,19 +88,19 @@ export default function Contact() {
             </div>
 
             <div className="mb-4 grid gap-4 sm:grid-cols-2">
-              <input type="text" placeholder="Full Name" required className="rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand" />
-              <input type="email" placeholder="Email Address" required className="rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand" />
+              <input type="text" placeholder="Full Name" required className="rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none placeholder:text-[#2B161B]/35 transition-colors focus:border-brand" />
+              <input type="email" placeholder="Email Address" required className="rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none placeholder:text-[#2B161B]/35 transition-colors focus:border-brand" />
             </div>
 
             <div className="mb-4 grid gap-4 sm:grid-cols-2">
-              <input type="text" placeholder="Company" className="rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand" />
-              <input type="tel" placeholder="Phone" className="rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand" />
+              <input type="text" placeholder="Company" className="rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none placeholder:text-[#2B161B]/35 transition-colors focus:border-brand" />
+              <input type="tel" placeholder="Phone" className="rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none placeholder:text-[#2B161B]/35 transition-colors focus:border-brand" />
             </div>
 
             <textarea
               placeholder="Tell us about your regulatory challenge..."
               rows={4}
-              className="mb-6 w-full resize-y rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand"
+              className="mb-6 w-full resize-y rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none placeholder:text-[#2B161B]/35 transition-colors focus:border-brand"
             />
 
             <button type="submit"
