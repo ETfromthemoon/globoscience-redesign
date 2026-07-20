@@ -2,298 +2,37 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { motion } from "motion/react";
-
-interface Location {
-  region: string;
-  city: string;
-  addr: string;
-  phone: string;
-  photo: string;
-  lat: number;
-  lng: number;
-}
-
-const LOCATIONS: Location[] = [
-  {
-    region: "North America", city: "Boston",
-    addr: "One Washington Mall, Suite #1066, Government Center, Boston, MA 02108",
-    phone: "+1 617 583 5727",
-    photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1200&q=80",
-    lat: 42.36, lng: -71.06,
-  },
-  {
-    region: "Europe", city: "London",
-    addr: "11 Westferry Circus, London E14 8RH, United Kingdom",
-    phone: "+44 74 5128 6444",
-    photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1200&q=80",
-    lat: 51.51, lng: -0.13,
-  },
-  {
-    region: "EU Headquarters", city: "Amsterdam",
-    addr: "World Trade Center, Strawinskylaan 1, 1077 XW Amsterdam",
-    phone: "+31 9 700 503 3004",
-    photo: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=1200&q=80",
-    lat: 52.37, lng: 4.90,
-  },
-  {
-    region: "France", city: "Lyon",
-    addr: "Tour Part-Dieu, 129 Rue Servient, 69326 Lyon Cedex 3",
-    phone: "+33 7 5793 5000",
-    photo: "https://images.unsplash.com/photo-1524396309943-e03f5249f002?w=1200&q=80",
-    lat: 45.76, lng: 4.84,
-  },
-  {
-    region: "Canada", city: "Toronto",
-    addr: "181 University Ave, Toronto, ON M5H 3M7",
-    phone: "+1 416 907 9455",
-    photo: "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?w=1200&q=80",
-    lat: 43.65, lng: -79.38,
-  },
-  {
-    region: "Latin America", city: "Santiago",
-    addr: "Entrevalle #62 G-864-F, Alhue, Curacavi, Region Metropolitana, Chile",
-    phone: "+56 2 2582 9330",
-    photo: "https://picsum.photos/seed/santiago/1200/800",
-    lat: -33.45, lng: -70.67,
-  },
-  {
-    region: "South Asia", city: "Rawalpindi",
-    addr: "Office # M-91, First Floor, Midway Centrum, 6th Rd, Rawalpindi 46000",
-    phone: "+92 301 9333400",
-    photo: "https://images.unsplash.com/photo-1566438480900-0609be27a4be?w=1200&q=80",
-    lat: 33.60, lng: 73.04,
-  },
-];
-
-/* ───── Wireframe Scientific Globe ───── */
-
-const GLOBE_R = 140;
-const GLOBE_CX = 160;
-const GLOBE_CY = 160;
-const GLOBE_SIZE = 320;
-const MERIDIANS = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
-const PARALLELS = [-60, -30, 0, 30, 60];
-
-function degToRad(d: number) { return (d * Math.PI) / 180; }
-
-function WireframeGlobe({
-  rotationDeg,
-  activeCity,
-  activeIndex,
-}: {
-  rotationDeg: number;
-  activeCity: Location;
-  activeIndex: number;
-}) {
-  const rotRad = degToRad(rotationDeg);
-  const R = GLOBE_R;
-  const CX = GLOBE_CX;
-  const CY = GLOBE_CY;
-
-  return (
-    <svg
-      width={GLOBE_SIZE}
-      height={GLOBE_SIZE}
-      viewBox={`0 0 ${GLOBE_SIZE} ${GLOBE_SIZE}`}
-      xmlns="http://www.w3.org/2000/svg"
-      className="overflow-visible"
-    >
-      <defs>
-        <radialGradient id="wgCore" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#E91F27" stopOpacity="0.12" />
-          <stop offset="60%" stopColor="#E91F27" stopOpacity="0.03" />
-          <stop offset="100%" stopColor="#E91F27" stopOpacity="0" />
-        </radialGradient>
-        <filter id="wgGlow">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        <filter id="wgGlowStrong">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-
-      {/* Ambient glow behind sphere */}
-      <circle cx={CX} cy={CY} r={R + 30} fill="url(#wgCore)" />
-
-      {/* Sphere outline */}
-      <circle cx={CX} cy={CY} r={R} fill="none" stroke="rgba(233,31,39,0.18)" strokeWidth={0.8} />
-      <circle cx={CX} cy={CY} r={R - 1} fill="none" stroke="rgba(233,31,39,0.06)" strokeWidth={0.4} />
-
-      {/* Latitude parallels */}
-      {PARALLELS.map((latDeg) => {
-        const phi = degToRad(90 - latDeg);
-        const cy = CY - R * Math.cos(phi);
-        const rx = R * Math.abs(Math.sin(phi));
-        const ry = rx * 0.28;
-        const isEquator = latDeg === 0;
-        return (
-          <ellipse
-            key={`lat-${latDeg}`}
-            cx={CX} cy={cy}
-            rx={rx} ry={ry}
-            fill="none"
-            stroke={isEquator ? "rgba(233,31,39,0.25)" : "rgba(233,31,39,0.09)"}
-            strokeWidth={isEquator ? 0.7 : 0.35}
-            strokeDasharray={isEquator ? undefined : "3 6"}
-          />
-        );
-      })}
-
-      {/* Longitude meridians */}
-      {MERIDIANS.map((lngDeg) => {
-        const L = degToRad(lngDeg) - rotRad;
-        const sinL = Math.sin(L);
-        if (sinL < -0.02) return null;
-        const cosL = Math.cos(L);
-        const rx = R * Math.abs(cosL);
-        const ry = R;
-        if (rx < 1.5) {
-          return (
-            <line
-              key={`mer-${lngDeg}`}
-              x1={CX} y1={CY - R} x2={CX} y2={CY + R}
-              stroke="rgba(233,31,39,0.14)" strokeWidth={0.4}
-            />
-          );
-        }
-        return (
-          <ellipse
-            key={`mer-${lngDeg}`}
-            cx={CX} cy={CY}
-            rx={rx} ry={ry}
-            fill="none"
-            stroke="rgba(233,31,39,0.1)"
-            strokeWidth={0.4}
-            strokeDasharray="2 5"
-          />
-        );
-      })}
-
-      {/* Equator glow ring */}
-      <ellipse cx={CX} cy={CY} rx={R * 0.98} ry={R * 0.27} fill="none"
-        stroke="rgba(233,31,39,0.12)" strokeWidth={1.5} />
-
-      {/* City markers */}
-      {LOCATIONS.map((loc, i) => {
-        const phi = degToRad(90 - loc.lat);
-        const L = degToRad(loc.lng) - rotRad;
-        const z3d = Math.sin(phi) * Math.sin(L);
-        if (z3d < -0.05) return null;
-
-        const x3d = Math.sin(phi) * Math.cos(L);
-        const y3d = Math.cos(phi);
-        const px = CX + x3d * R;
-        const py = CY - y3d * R;
-        const opacity = Math.max(0.15, z3d * 0.6 + 0.3);
-        const isActive = i === activeIndex;
-
-        return (
-          <g key={`city-${i}`}>
-            {/* Pulse ring for active */}
-            {isActive && (
-              <motion.circle
-                cx={px} cy={py} r={8}
-                fill="none" stroke="#E91F27" strokeWidth={0.7}
-                filter="url(#wgGlowStrong)"
-                initial={{ opacity: 0.7, scale: 0.6 }}
-                animate={{ opacity: [0.7, 0.15, 0.7], scale: [0.6, 1.8, 0.6] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-              />
-            )}
-            {/* Dot */}
-            <motion.circle
-              cx={px} cy={py}
-              r={isActive ? 4 : 2.5}
-              fill="#E91F27"
-              filter={isActive ? "url(#wgGlowStrong)" : "url(#wgGlow)"}
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: isActive ? [opacity, 1, opacity] : opacity,
-              }}
-              transition={{
-                opacity: { duration: isActive ? 1.5 : 0.3, repeat: isActive ? Infinity : 0, repeatType: "reverse", ease: "easeInOut" },
-              }}
-            />
-            {/* Label for active */}
-            {isActive && (
-              <motion.text
-                x={px + 10} y={py - 6}
-                fill="#E91F27"
-                fontSize="9"
-                fontWeight="700"
-                fontFamily="var(--font-heading)"
-                letterSpacing="0.08em"
-                initial={{ opacity: 0, x: px + 4 }}
-                animate={{ opacity: 1, x: px + 10 }}
-                transition={{ duration: 0.3, delay: 0.2 }}
-              >
-                {loc.city}
-              </motion.text>
-            )}
-          </g>
-        );
-      })}
-
-      {/* Axis poles */}
-      <circle cx={CX} cy={CY - R} r={2} fill="rgba(233,31,39,0.3)" />
-      <circle cx={CX} cy={CY + R} r={2} fill="rgba(233,31,39,0.2)" />
-    </svg>
-  );
-}
-
-/* ───── Main Component ───── */
+import { LOCATIONS } from "./locations-data";
+import WireframeGlobe from "./wireframe-globe";
 
 export default function Locations() {
   const headerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [slideKey, setSlideKey] = useState(0);
-  const [rotationDeg, setRotationDeg] = useState(LOCATIONS[0].lng);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const targetRot = useRef(LOCATIONS[0].lng);
-  const animFrame = useRef<number>(0);
 
   const goTo = useCallback((index: number) => {
     setSlideKey((k) => k + 1);
     setActive(index);
-    targetRot.current = LOCATIONS[index].lng;
   }, []);
 
   const next = useCallback(() => {
-    const nxt = (active + 1) % LOCATIONS.length;
     setSlideKey((k) => k + 1);
-    setActive(nxt);
-    targetRot.current = LOCATIONS[nxt].lng;
-  }, [active]);
+    setActive((cur) => (cur + 1) % LOCATIONS.length);
+  }, []);
 
   const prev = useCallback(() => {
-    const prv = (active - 1 + LOCATIONS.length) % LOCATIONS.length;
     setSlideKey((k) => k + 1);
-    setActive(prv);
-    targetRot.current = LOCATIONS[prv].lng;
-  }, [active]);
+    setActive((cur) => (cur - 1 + LOCATIONS.length) % LOCATIONS.length);
+  }, []);
 
-  /* Smooth globe rotation via rAF */
+  /* Preload de todas las fotos — evita el flash al cambiar de slide */
   useEffect(() => {
-    const animate = () => {
-      setRotationDeg((cur) => {
-        const diff = targetRot.current - cur;
-        if (Math.abs(diff) < 0.3) return targetRot.current;
-        return cur + diff * 0.06;
-      });
-      animFrame.current = requestAnimationFrame(animate);
-    };
-    animFrame.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animFrame.current);
+    LOCATIONS.forEach((l) => {
+      const img = new Image();
+      img.src = l.photo;
+    });
   }, []);
 
   useEffect(() => {
@@ -308,10 +47,7 @@ export default function Locations() {
   }, []);
 
   useEffect(() => {
-    if (isPaused) {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      return;
-    }
+    if (isPaused) return;
     intervalRef.current = setInterval(next, 5000);
     return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   }, [isPaused, next]);
@@ -321,7 +57,7 @@ export default function Locations() {
   return (
     <section
       id="locations"
-      className="relative overflow-hidden bg-bg-alt py-24 lg:py-28"
+      className="section-pad relative overflow-hidden bg-bg-alt"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -330,10 +66,10 @@ export default function Locations() {
       <div className="relative z-10 mx-auto max-w-[1200px] px-6">
         {/* ── Full-width title ── */}
         <div ref={headerRef} className="scroll-reveal mb-16 text-center">
-          <span className="mb-3 block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-brand/70">
+          <span className="eyebrow mb-3">
             Global Presence
           </span>
-          <h2 className="mb-4 font-heading text-[clamp(2rem,3.2vw,2.8rem)] font-bold leading-[1.15] tracking-[-0.015em] text-text-primary">
+          <h2 className="heading-2 mb-4">
             Serving clients across{" "}
             <span className="text-brand">100+</span> countries
           </h2>
@@ -398,7 +134,7 @@ export default function Locations() {
               </div>
 
               {/* Navigation */}
-              <div className="mt-6 flex items-center justify-center gap-4">
+              <div className="mt-6 flex items-center justify-center gap-3">
                 <button
                   onClick={prev}
                   className="flex h-9 w-9 items-center justify-center rounded-full border border-border-strong text-text-body transition-all hover:border-brand hover:text-brand"
@@ -408,18 +144,22 @@ export default function Locations() {
                     <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
-                <div className="flex items-center gap-2">
-                  {LOCATIONS.map((_, i) => (
+                <div className="flex items-center">
+                  {LOCATIONS.map((l, i) => (
                     <button
                       key={i}
                       onClick={() => goTo(i)}
-                      className={`rounded-full transition-all duration-400 ${
-                        i === active
-                          ? "h-[5px] w-7 bg-brand shadow-[0_0_8px_rgba(233,31,39,0.4)]"
-                          : "h-[3px] w-[3px] bg-text-muted hover:bg-brand/35"
-                      }`}
-                      aria-label={`Location ${i + 1}`}
-                    />
+                      className="group/dot flex h-8 w-6 items-center justify-center"
+                      aria-label={`${l.city} office`}
+                    >
+                      <span
+                        className={`rounded-full transition-all duration-400 ${
+                          i === active
+                            ? "h-[5px] w-5 bg-brand shadow-[0_0_8px_rgba(233,31,39,0.4)]"
+                            : "h-[4px] w-[4px] bg-text-muted group-hover/dot:bg-brand/40"
+                        }`}
+                      />
+                    </button>
                   ))}
                 </div>
                 <button
@@ -453,7 +193,7 @@ export default function Locations() {
                 transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
                 style={{ transform: "translate(-50%, -50%) rotateX(60deg)" }}
               />
-              <WireframeGlobe rotationDeg={rotationDeg} activeCity={loc} activeIndex={active} />
+              <WireframeGlobe locations={LOCATIONS} activeIndex={active} />
               {/* Label: rotate hint */}
               <p className="mt-3 text-center text-[0.6rem] font-medium uppercase tracking-[0.14em] text-text-muted">
                 Rotating to active location

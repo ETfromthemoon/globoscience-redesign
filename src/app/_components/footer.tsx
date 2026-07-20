@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-black/[0.06] bg-white py-16">
+    <footer className="relative overflow-hidden border-t border-border-light bg-white py-16">
       <div className="pointer-events-none absolute inset-0 bg-dots opacity-30" />
       <div className="relative z-10 mx-auto max-w-[1200px] px-6">
         <div className="mb-12 grid gap-10 sm:grid-cols-3">
@@ -29,10 +29,16 @@ export default function Footer() {
               Navigate
             </h4>
             <nav className="flex flex-col gap-2.5">
-              {["About", "Expertise", "Why Us", "Locations", "Contact"].map((label) => (
+              {[
+                { label: "About", href: "#about" },
+                { label: "Expertise", href: "#expertise" },
+                { label: "Why Us", href: "#why" },
+                { label: "Locations", href: "#locations" },
+                { label: "Contact", href: "#contact" },
+              ].map(({ label, href }) => (
                 <a
                   key={label}
-                  href={`#${label.toLowerCase().replace(/\s/g, "-")}`}
+                  href={href}
                   className="text-sm text-text-body transition-colors hover:text-brand"
                 >
                   {label}
@@ -50,23 +56,28 @@ export default function Footer() {
                 href="https://www.linkedin.com/company/40735184/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] text-sm text-text-body transition-all hover:border-brand hover:text-brand"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-border-light text-text-body transition-all hover:-translate-y-0.5 hover:border-brand hover:text-brand"
                 aria-label="LinkedIn"
               >
-                in
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
+                </svg>
               </a>
               <a
                 href="mailto:innovate@globoscience.com"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] text-sm text-text-body transition-all hover:border-brand hover:text-brand"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-border-light text-text-body transition-all hover:-translate-y-0.5 hover:border-brand hover:text-brand"
                 aria-label="Email"
               >
-                @
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path d="m3 7 9 6 9-6" />
+                </svg>
               </a>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-black/[0.06] pt-6">
+        <div className="border-t border-border-light pt-6">
           <p className="text-xs text-text-muted">
             &copy; 2026 GloboScience Inc. All rights reserved.
           </p>

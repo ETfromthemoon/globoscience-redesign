@@ -22,17 +22,17 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" ref={ref} className="relative overflow-hidden bg-bg-primary py-28">
+    <section id="contact" ref={ref} className="section-pad relative overflow-hidden bg-bg-primary">
       <div className="pointer-events-none absolute inset-0 bg-molecular opacity-20" />
 
       <div className="relative z-10 mx-auto grid max-w-[1200px] gap-16 px-6 lg:grid-cols-2">
         {/* Info */}
         <div>
           <div className="scroll-reveal mb-14">
-            <span className="mb-4 block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-brand/70">
+            <span className="eyebrow mb-4">
               Let&apos;s Talk
             </span>
-            <h2 className="mb-5 font-heading text-[clamp(2rem,3vw,2.6rem)] font-bold tracking-[-0.015em] text-text-primary">
+            <h2 className="heading-2 mb-5">
               Start the <span className="text-brand">conversation</span>
             </h2>
             <p className="max-w-[440px] leading-relaxed text-text-body">
@@ -67,40 +67,40 @@ export default function Contact() {
         {/* Form */}
         <div className="scroll-reveal">
           <form
-            className="glass-dark glass-sheen rounded-sm p-8"
+            className="relative rounded-sm border border-[#2B161B]/10 border-t-[3px] border-t-brand bg-white/80 p-8 shadow-[0_14px_44px_-14px_rgba(43,22,27,0.16)] backdrop-blur-sm"
             onSubmit={(e) => e.preventDefault()}
           >
             <div className="mb-4">
               <select
-                className="w-full cursor-pointer rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand"
+                className="w-full cursor-pointer rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none transition-colors focus:border-brand"
                 required
                 defaultValue=""
               >
-                <option value="" disabled className="text-gray-500">
+                <option value="" disabled className="text-[#9b8a8d]">
                   I&apos;m interested in...
                 </option>
-                <option className="text-gray-800">Regulatory Strategy</option>
-                <option className="text-gray-800">Product Development Consulting</option>
-                <option className="text-gray-800">Clinical Development Optimization</option>
-                <option className="text-gray-800">FDA / EMA Meeting Preparation</option>
-                <option className="text-gray-800">General Inquiry</option>
+                <option className="text-[#2B161B]">Regulatory Strategy</option>
+                <option className="text-[#2B161B]">Product Development Consulting</option>
+                <option className="text-[#2B161B]">Clinical Development Optimization</option>
+                <option className="text-[#2B161B]">FDA / EMA Meeting Preparation</option>
+                <option className="text-[#2B161B]">General Inquiry</option>
               </select>
             </div>
 
             <div className="mb-4 grid gap-4 sm:grid-cols-2">
-              <input type="text" placeholder="Full Name" required className="rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand" />
-              <input type="email" placeholder="Email Address" required className="rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand" />
+              <input type="text" placeholder="Full Name" required className="rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none placeholder:text-[#2B161B]/35 transition-colors focus:border-brand" />
+              <input type="email" placeholder="Email Address" required className="rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none placeholder:text-[#2B161B]/35 transition-colors focus:border-brand" />
             </div>
 
             <div className="mb-4 grid gap-4 sm:grid-cols-2">
-              <input type="text" placeholder="Company" className="rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand" />
-              <input type="tel" placeholder="Phone" className="rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand" />
+              <input type="text" placeholder="Company" className="rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none placeholder:text-[#2B161B]/35 transition-colors focus:border-brand" />
+              <input type="tel" placeholder="Phone" className="rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none placeholder:text-[#2B161B]/35 transition-colors focus:border-brand" />
             </div>
 
             <textarea
               placeholder="Tell us about your regulatory challenge..."
               rows={4}
-              className="mb-6 w-full resize-y rounded-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 transition-colors focus:border-brand"
+              className="mb-6 w-full resize-y rounded-sm border border-[#2B161B]/12 bg-white px-4 py-3 text-sm text-text-primary outline-none placeholder:text-[#2B161B]/35 transition-colors focus:border-brand"
             />
 
             <button type="submit"

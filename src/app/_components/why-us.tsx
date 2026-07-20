@@ -82,30 +82,53 @@ export default function WhyUs() {
   }, []);
 
   return (
-    <div ref={triggerRef} className="relative bg-bg-alt">
+    <div id="why" ref={triggerRef} className="relative bg-bg-alt">
       <section className="sticky top-0 flex h-screen items-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-dots opacity-20" />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[1200px] items-stretch gap-12 px-6 lg:gap-20">
-          {/* Left sidebar: header + compact timeline — stays within viewport */}
-          <div className="flex w-[280px] flex-shrink-0 flex-col justify-between py-12">
+        <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6">
+          {/* Mobile header — visible solo bajo lg */}
+          <div className="pt-14 pb-2 text-center lg:hidden">
+            <span className="eyebrow mb-2">Why Choose Us</span>
+            <h2 className="font-heading text-[clamp(1.4rem,5.5vw,1.8rem)] font-bold leading-[1.15] tracking-[-0.02em] text-text-primary">
+              The <span className="text-brand">10 fastest</span> FDA&nbsp;approvals
+            </h2>
+          </div>
+
+          <div className="flex w-full items-stretch gap-12 lg:gap-20">
+          {/* Left sidebar: header + progreso — stays within viewport */}
+          <div className="hidden w-[300px] flex-shrink-0 flex-col justify-between py-14 lg:flex">
             <div>
-              <span className="mb-2 block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand/70">
+              <span className="eyebrow mb-3">
                 Why Choose Us
               </span>
-              <h2 className="mb-2 font-heading text-[clamp(1.5rem,2.2vw,2rem)] font-bold leading-[1.15] tracking-[-0.02em] text-text-primary text-wrap-balance">
+              <h2 className="mb-3 font-heading text-[clamp(1.5rem,2.2vw,2rem)] font-bold leading-[1.15] tracking-[-0.02em] text-text-primary text-wrap-balance">
                 The <span className="text-brand">10 fastest</span> FDA&nbsp;approvals
               </h2>
-              <p className="text-[0.8rem] leading-relaxed text-text-body">
-                Scroll to discover each reason.
+              <p className="max-w-[240px] text-[0.8rem] leading-relaxed text-text-body">
+                Scroll to discover each reason we deliver first-cycle wins.
               </p>
             </div>
 
-            {/* Compact timeline — always visible */}
-            <div className="relative flex items-center gap-3 py-4">
-              {/* Thin vertical line */}
-              <div className="relative flex flex-col gap-[10px]">
-                <div className="absolute top-0 bottom-0 left-[3px] w-[1px] bg-brand/12" />
+            {/* Progreso: título de la razón activa + navegación por barras */}
+            <div className="flex flex-col gap-4">
+              <div className="relative h-[1.5rem] overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={activeIndex}
+                    initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, y: -12, filter: "blur(4px)" }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute inset-0 truncate font-heading text-[0.8rem] font-semibold uppercase tracking-[0.1em] text-brand"
+                  >
+                    {REASONS[activeIndex].title}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
+
+              {/* Barras de navegación — progreso + click */}
+              <div className="flex items-center gap-[5px]">
                 {REASONS.map((r, i) => {
                   const isActive = i === activeIndex;
                   const isPast = i < activeIndex;
@@ -119,16 +142,16 @@ export default function WhyUs() {
                           window.scrollTo({ top: targetY, behavior: "smooth" });
                         }
                       }}
-                      className="relative z-10 flex h-[14px] items-center group"
-                      aria-label={`Reason ${i + 1}`}
+                      className="group flex h-5 flex-1 items-center"
+                      aria-label={`Reason ${i + 1}: ${r.title}`}
                     >
                       <span
-                        className={`block rounded-full transition-all duration-400 ${
+                        className={`h-[3px] w-full rounded-full transition-all duration-500 ${
                           isActive
-                            ? "h-[7px] w-[7px] bg-brand shadow-[0_0_10px_rgba(233,31,39,0.5)]"
+                            ? "bg-brand shadow-[0_0_8px_rgba(233,31,39,0.45)]"
                             : isPast
-                              ? "h-[5px] w-[5px] bg-brand/35"
-                              : "h-[4px] w-[4px] bg-brand/10 group-hover:bg-brand/25 group-hover:h-[5px] group-hover:w-[5px]"
+                              ? "bg-brand/40"
+                              : "bg-brand/12 group-hover:bg-brand/30"
                         }`}
                       />
                     </button>
@@ -136,29 +159,48 @@ export default function WhyUs() {
                 })}
               </div>
 
-              {/* Active label */}
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={activeIndex}
-                  initial={{ opacity: 0, x: -6 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 6 }}
-                  transition={{ duration: 0.25 }}
-                  className="text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-brand"
-                >
-                  {String(activeIndex + 1).padStart(2, "0")} / {String(TOTAL).padStart(2, "0")}
-                </motion.span>
-              </AnimatePresence>
+              <div className="flex items-baseline gap-1.5 font-heading">
+                <AnimatePresence mode="popLayout">
+                  <motion.span
+                    key={activeIndex}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-lg font-bold text-brand"
+                  >
+                    {String(activeIndex + 1).padStart(2, "0")}
+                  </motion.span>
+                </AnimatePresence>
+                <span className="text-sm font-semibold text-text-muted">/ {TOTAL}</span>
+              </div>
             </div>
           </div>
 
-          {/* Right: full accordion stack — ALL cards visible */}
-          <div className="relative flex flex-1 items-center justify-center py-8">
-            <div className="relative w-full max-w-[520px]" style={{ height: 340 }}>
+          {/* Right: accordion stack + número marca de agua gigante */}
+          <div className="relative flex flex-1 items-center py-8">
+            {/* Watermark: número gigante que llena el vacío y muta con la razón */}
+            <div className="pointer-events-none absolute inset-y-0 right-0 hidden select-none items-center overflow-hidden lg:flex">
+              <AnimatePresence mode="popLayout">
+                <motion.span
+                  key={activeIndex}
+                  initial={{ opacity: 0, x: 40, filter: "blur(12px)" }}
+                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, x: -40, filter: "blur(12px)" }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-heading text-[20rem] font-bold leading-none text-brand/[0.055]"
+                >
+                  {String(activeIndex + 1).padStart(2, "0")}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+
+            <div className="relative z-10 w-full max-w-[500px]" style={{ height: 340 }}>
               {/* Render ALL cards as stack */}
               {REASONS.map((reason, i) => {
                 const dist = i - activeIndex;
                 if (dist < -8 || dist > 9) return null; // skip cards too far away
+                const isTop = dist === 0;
 
                 return (
                   <motion.div
@@ -172,24 +214,27 @@ export default function WhyUs() {
                       zIndex: stackZ(dist),
                     }}
                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className={`glass-light absolute inset-x-0 top-0 rounded-sm p-8 ${
-                      dist === 0 ? "glass-sheen shadow-[0_4px_28px_rgba(0,0,0,0.06)]" : ""
+                    className={`glass-light absolute inset-x-0 top-0 overflow-hidden rounded-sm p-8 ${
+                      isTop ? "glass-sheen border-l-[3px] border-l-brand shadow-[0_10px_34px_-10px_rgba(43,22,27,0.14)]" : ""
                     }`}
                     style={{ transformOrigin: "center top" }}
                   >
-                    <div className="mb-3 font-heading text-3xl font-bold text-brand/15">
-                      {String(i + 1).padStart(2, "0")}
+                    <div className="mb-4 flex items-center gap-3">
+                      <span className="font-heading text-sm font-bold tracking-[0.05em] text-brand">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className={`h-px flex-1 transition-colors duration-500 ${isTop ? "bg-brand/25" : "bg-brand/10"}`} />
                     </div>
-                    <h3 className="mb-2 font-heading text-base font-semibold text-text-primary">
+                    <h3 className="font-heading text-xl font-semibold leading-snug tracking-[-0.01em] text-text-primary">
                       {reason.title}
                     </h3>
-                    {dist === 0 && (
+                    {isTop && (
                       <motion.p
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.35 }}
-                        className="text-[0.875rem] leading-relaxed text-text-body"
+                        className="mt-3 text-[0.9rem] leading-relaxed text-text-body"
                       >
                         {reason.desc}
                       </motion.p>
@@ -198,6 +243,7 @@ export default function WhyUs() {
                 );
               })}
             </div>
+          </div>
           </div>
         </div>
 

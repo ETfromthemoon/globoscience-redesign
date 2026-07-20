@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { motion } from "motion/react";
 import MolecularOrb from "./molecular-orb";
 
 export default function Hero() {
@@ -32,7 +33,7 @@ export default function Hero() {
       {/* Radial red accent */}
       <div className="pointer-events-none absolute -top-[20%] -right-[10%] z-[1] h-[80%] w-[60%] rounded-full bg-[radial-gradient(ellipse,rgba(233,31,39,0.03)_0%,transparent_70%)]" />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-[1280px] items-center gap-8 px-6 py-24 lg:grid-cols-[1fr_560px]">
+      <div className="relative z-10 mx-auto grid w-full max-w-[1200px] items-center gap-8 px-6 py-24 lg:grid-cols-[1fr_520px]">
         {/* Left: Text content */}
         <div>
           <p
@@ -52,7 +53,13 @@ export default function Hero() {
             <span className="relative inline-block text-brand">
               innovative
               <svg className="absolute -bottom-2 left-0 w-full" height="6" viewBox="0 0 200 6" preserveAspectRatio="none">
-                <path d="M0 3 Q100 0 200 3" stroke="#E91F27" strokeWidth="1.5" fill="none" opacity="0.6" />
+                <motion.path
+                  d="M0 3 Q100 0 200 3"
+                  stroke="#E91F27" strokeWidth="1.5" fill="none"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 0.6 }}
+                  transition={{ duration: 0.9, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
+                />
               </svg>
             </span>{" "}
             regulatory pathways from molecule to&nbsp;marketplace

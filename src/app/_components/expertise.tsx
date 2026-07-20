@@ -33,15 +33,15 @@ export default function Expertise() {
   }, []);
 
   return (
-    <section id="expertise" className="relative overflow-hidden bg-white py-32">
+    <section id="expertise" className="section-pad relative overflow-hidden bg-white">
       <div className="pointer-events-none absolute inset-0 bg-dots opacity-30" />
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6">
         <div ref={headerRef} className="scroll-reveal mb-20 text-center">
-          <span className="mb-3 block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand/70">
+          <span className="eyebrow mb-3">
             Our Expertise
           </span>
-          <h2 className="mb-5 font-heading text-[clamp(2rem,3.2vw,2.8rem)] font-bold tracking-[-0.02em] text-text-primary text-wrap-balance">
+          <h2 className="heading-2 mb-5">
             From laboratory to <span className="text-brand">approved label</span>
           </h2>
           <p className="mx-auto max-w-[560px] text-[0.9375rem] leading-relaxed text-text-body">
