@@ -72,7 +72,7 @@ export default function About() {
         </div>
 
         {/* Metrics — franja con morph de dígitos */}
-        <div className="mx-auto mt-20 max-w-[680px]">
+        <div className="mx-auto mt-20 max-w-[420px]">
           <MetricMorph />
         </div>
       </div>

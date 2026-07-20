@@ -83,7 +83,7 @@ function MorphLabel({ label, slow }: { label: string; slow: boolean }) {
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={label}
-          className="absolute inset-0 flex flex-wrap content-center items-center gap-x-[0.35em]"
+          className="absolute inset-0 flex flex-wrap content-center items-center justify-center gap-x-[0.35em]"
           initial="hidden"
           animate="show"
           exit="exit"
@@ -143,24 +143,25 @@ export default function MetricMorph() {
   return (
     <div
       ref={rootRef}
-      className="glass-light glass-sheen relative flex items-center gap-5 rounded-sm px-6 py-5 sm:px-8"
+      className="glass-light glass-sheen relative flex flex-col items-center gap-5 rounded-sm px-6 py-7 sm:px-8"
       onMouseEnter={() => { pausedRef.current = true; }}
       onMouseLeave={() => { pausedRef.current = false; }}
     >
-      <div className="flex flex-1 flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
+      {/* Métrica centrada: número + label */}
+      <div className="flex flex-col items-center gap-1.5 text-center">
         <MorphNumber text={m.display} suffix={m.suffix} slow={slow} />
-        <span className="flex-1 text-[0.8rem] font-medium text-text-body sm:text-sm">
+        <span className="text-[0.8rem] font-medium text-text-body sm:text-sm">
           <MorphLabel label={m.label} slow={slow} />
         </span>
       </div>
 
-      {/* Indicador de progreso */}
+      {/* Indicador de progreso — centrado abajo */}
       <div className="flex items-center gap-1.5" role="tablist" aria-label="Metrics">
         {METRICS.map((metric, i) => (
           <button
             key={metric.label}
             onClick={() => setActive(i)}
-            className="group/kpi flex h-7 w-4 items-center justify-center"
+            className="group/kpi flex h-6 w-5 items-center justify-center"
             role="tab"
             aria-selected={i === active}
             aria-label={metric.label}
@@ -168,8 +169,8 @@ export default function MetricMorph() {
             <span
               className={`rounded-full transition-all duration-400 ${
                 i === active
-                  ? "h-[18px] w-[4px] bg-brand shadow-[0_0_8px_rgba(233,31,39,0.35)]"
-                  : "h-[6px] w-[4px] bg-brand/15 group-hover/kpi:bg-brand/35"
+                  ? "h-[4px] w-[18px] bg-brand shadow-[0_0_8px_rgba(233,31,39,0.35)]"
+                  : "h-[4px] w-[6px] bg-brand/15 group-hover/kpi:bg-brand/35"
               }`}
             />
           </button>
