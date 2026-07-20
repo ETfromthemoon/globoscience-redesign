@@ -96,21 +96,6 @@ export default function Hero() {
           <MolecularOrb />
         </div>
       </div>
-
-      {/* Scroll hint */}
-      <motion.a
-        href="#about"
-        aria-label="Scroll to About section"
-        className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 md:flex"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.8 }}
-      >
-        <span className="text-[0.58rem] font-bold uppercase tracking-[0.24em] text-text-muted">
-          Scroll
-        </span>
-        <span className="scroll-hint-line" />
-      </motion.a>
     </section>
   );
 }
